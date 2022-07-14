@@ -17,8 +17,10 @@ namespace KB
         SqlCommand commNew;
         //SqlDataAdapter adaptNew;
         SqlDataReader readerNew;
+        byte[] uAttach1, uAttach2, uAttach3;
+        string uextAttach1, uextAttach2, uextAttach3;
 
-        
+
 
         public AddNewKB()
         {
@@ -151,8 +153,8 @@ namespace KB
 
         private void btnAttach1_Click(object sender, EventArgs e)
         {
-            try
-            {
+           //try
+           //{
                 OpenFileDialog openFileDialog1 = new OpenFileDialog
                 {
                     InitialDirectory = @"c:\",
@@ -163,10 +165,8 @@ namespace KB
 
                     DefaultExt = "txt",
                     Filter = "Word Documents|*.doc|Excel Worksheets|*.xls;*.xlsx|" +
-                        "PowerPoint Presentations|*.ppt" +
-                        "|Office Files|*.doc;*.xls;*.xlsx;*.ppt" +
-                        "|Image Files|*.jpg;*.png" +
-                        "|Text Files|*.txt;" +
+                        "Image Files|*.jpg;*.png" +
+                        "|Text Files|*.txt" +
                         "|Archives Files|*.zip;*.rar" +
                         "|All Files|*.*",
                     FilterIndex = 2,
@@ -175,25 +175,33 @@ namespace KB
                     ReadOnlyChecked = true,
                     ShowReadOnly = true
                 };
-
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     txtAttach1.Text = openFileDialog1.FileName;
                 }
 
-            }
-            catch (Exception ex)
-            {
+                if (txtAttach1.Text != "")
+                {
+                   
+                    FileInfo attach1 = new FileInfo(txtAttach1.Text);
+                    uextAttach1 = attach1.Extension;
+                    uAttach1 = File.ReadAllBytes(txtAttach1.Text);
+                    MessageBox.Show(uextAttach1 + "" + uAttach1.ToString());
+                }
+ 
+          // }
+          // catch (Exception ex)
+          // {
                 //
-            }
+          // }
 
 
         }
 
         private void btnAttach2_Click(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 OpenFileDialog openFileDialog2 = new OpenFileDialog
                 {
                     InitialDirectory = @"c:\",
@@ -203,30 +211,41 @@ namespace KB
                     CheckPathExists = true,
 
                     DefaultExt = "txt",
-                    Filter = "txt files (*.txt)|*.txt",
+                    Filter = "Word Documents|*.doc|Excel Worksheets|*.xls;*.xlsx|" +
+                        "Image Files|*.jpg;*.png" +
+                        "|Text Files|*.txt" +
+                        "|Archives Files|*.zip;*.rar" +
+                        "|All Files|*.*",
                     FilterIndex = 2,
                     RestoreDirectory = true,
 
                     ReadOnlyChecked = true,
                     ShowReadOnly = true
                 };
-
                 if (openFileDialog2.ShowDialog() == DialogResult.OK)
                 {
                     txtAttach2.Text = openFileDialog2.FileName;
                 }
-            }
-            catch (Exception ex)
-            {
+                if (txtAttach2.Text != "")
+                {
+
+                    FileInfo attach2 = new FileInfo(txtAttach2.Text);
+                    uextAttach2 = attach2.Extension;
+                    uAttach2 = File.ReadAllBytes(txtAttach2.Text);
+                }
+
+            //}
+            //catch (Exception ex)
+            //{
                 //
-            }
+           // }
 
         }
 
         private void btnAttach3_Click(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 OpenFileDialog openFileDialog3 = new OpenFileDialog
                 {
                     InitialDirectory = @"c:\",
@@ -236,63 +255,80 @@ namespace KB
                     CheckPathExists = true,
 
                     DefaultExt = "txt",
-                    Filter = "txt files (*.txt)|*.txt",
+                    Filter = "Word Documents|*.doc|Excel Worksheets|*.xls;*.xlsx|" +
+                        "Image Files|*.jpg;*.png" +
+                        "|Text Files|*.txt" +
+                        "|Archives Files|*.zip;*.rar" +
+                        "|All Files|*.*",
                     FilterIndex = 2,
                     RestoreDirectory = true,
 
                     ReadOnlyChecked = true,
                     ShowReadOnly = true
                 };
-
                 if (openFileDialog3.ShowDialog() == DialogResult.OK)
                 {
                     txtAttach3.Text = openFileDialog3.FileName;
                 }
-            }
-            catch (Exception ex)
-            {
+                if (txtAttach3.Text != "")
+                {
+
+                    FileInfo attach3 = new FileInfo(txtAttach3.Text);
+                    uextAttach3 = attach3.Extension;
+                    uAttach3 = File.ReadAllBytes(txtAttach3.Text);
+                }
+            //}
+            //catch (Exception ex)
+            //{
                 //
-            }
+           // }
 
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            string dJIRA, dAttach1, dAttach2, dAttach3;
+            //string dJIRA, dAttach1, dAttach2, dAttach3;
 
             //Validate if the fields are not empty
 
 
-            if (txtJIRA.Text != "") { dJIRA = txtJIRA.Text; } else { dJIRA = ""; }
-            if (txtAttach1.Text != "") { dAttach1 = txtAttach1.Text; } else { dAttach1 = ""; }
+            //if (txtJIRA.Text != "") { dJIRA = txtJIRA.Text; } else { dJIRA = ""; }
+            /*if (txtAttach1.Text != "") { dAttach1 = txtAttach1.Text; } else { dAttach1 = ""; }
             if (txtAttach2.Text != "") { dAttach2 = txtAttach2.Text; } else { dAttach2 = ""; }
-            if (txtAttach3.Text != "") { dAttach3 = txtAttach3.Text; } else { dAttach3 = ""; }
+            if (txtAttach3.Text != "") { dAttach3 = txtAttach3.Text; } else { dAttach3 = ""; }*/
 
 
             connNew.Open();
-            commNew = new SqlCommand("INSERT into KnowledgeBasearticleNumber,articleName,hashTags,ticketType,product,createdDate,submittedBy,country," +
-                "jiraTicket,partner,description,solution,template,requiredTroubleshooting,Attachement1,Attachement2,Attachement3)" +
+            commNew = new SqlCommand("INSERT into KnowledgeBase (articleNumber,articleName,hashTags,ticketType,product,createdDate,submittedBy,country," +
+                "jiraTicket,partner,description,solution,template,requiredTroubleshooting,Attachement1,Extension1,Attachement2,Extension2,Attachement3,Extension3)" +
                 "Values(@articleNumber, @articleName, @hashTags, @ticketType, @product, @createdDate, @submittedBy, @country, @jiraTicket, @partner, " +
-                "@description, @solution, @template, @requiredTroubleshooting, @Attachement1, @Attachement2, @Attachement3)", connNew);
+                "@description, @solution, @template, @requiredTroubleshooting, @Attachement1,@Extension1,@Attachement2, @Extension2,@Attachement3, @Extension3)", connNew);
 
             commNew.Parameters.AddWithValue("@articleNumber", textArticleNo.Text);
             commNew.Parameters.AddWithValue("@articleName", txtArticleName.Text);
             commNew.Parameters.AddWithValue("@hashTags", txtHashtag.Text);
             commNew.Parameters.AddWithValue("@ticketType", cbTicketType.Text);
             commNew.Parameters.AddWithValue("@product", cbProduct.Text);
-            commNew.Parameters.AddWithValue("@createdDate", txtCreatedDate.Text);
+            commNew.Parameters.AddWithValue("@createdDate", Convert.ToDateTime(txtCreatedDate.Text));
             commNew.Parameters.AddWithValue("@submittedBy", txtSubmittedBy.Text);
             commNew.Parameters.AddWithValue("@country", cbCountry.Text);
-            commNew.Parameters.AddWithValue("@jiraTicket", dJIRA);
+            commNew.Parameters.AddWithValue("@jiraTicket", txtJIRA.Text);
             commNew.Parameters.AddWithValue("@partner", cbPartner.Text);
             commNew.Parameters.AddWithValue("@description", rtxtDescription.Text);
             commNew.Parameters.AddWithValue("@solution", rtxtSolution.Text);
             commNew.Parameters.AddWithValue("@template", rtxtTemplate.Text);
             commNew.Parameters.AddWithValue("@requiredTroubleshooting", rtxtRequiredT.Text);
-            commNew.Parameters.AddWithValue("@Attachement1", dAttach1);
-            commNew.Parameters.AddWithValue("@Attachement2", dAttach2);
-            commNew.Parameters.AddWithValue("@Attachement3", dAttach3);
+            commNew.Parameters.AddWithValue("@Attachement1", uAttach1);
+            commNew.Parameters.AddWithValue("@Extension1", uextAttach1);
+            commNew.Parameters.AddWithValue("@Attachement2", uAttach2);
+            commNew.Parameters.AddWithValue("@Extension2", uextAttach2);
+            commNew.Parameters.AddWithValue("@Attachement3", uAttach3);
+            commNew.Parameters.AddWithValue("@Extension3", uextAttach3);
+            commNew.ExecuteReader();
+
             connNew.Close();
+
+            //Call function to clear after submit
 
         }
     }
