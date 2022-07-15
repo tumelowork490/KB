@@ -32,5 +32,20 @@ namespace KB
             dgvListData.DataSource = dt;
             connSearchKB.Close();
         }
+
+        private void txtSearchBar_TextChanged(object sender, EventArgs e)
+        {
+            txtSearchBar.Text = txtSearchBar.Text.Trim();
+            //search like google online
+            connSearchKB.Open();
+            adaptSearchKB = new SqlDataAdapter("Select * from KnowledgeBase where articleName like '" + txtSearchBar.Text + "%'", connSearchKB);
+            DataTable dt = new DataTable();
+            adaptSearchKB.Fill(dt);
+            dgvListData.DataSource = dt;
+            connSearchKB.Close();
+
+            dgvListData.Refresh();
+            dgvListData.Update();
+        }
     }
 }
